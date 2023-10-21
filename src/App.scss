@@ -1,0 +1,80 @@
+@font-face {
+  font-family: "PixterDisplayBold";
+  src: url('./fonts/PixterDisplayBold/font.woff2') format('woff2'), url('./fonts/PixterDisplayBold/font.woff') format('woff');
+}
+@font-face {
+  font-family: "PixterDisplay";
+  src: url('./fonts/PixterDisplay/font.woff2') format('woff2'), url('./fonts/PixterDisplay/font.woff') format('woff');
+}
+
+$primary: #ffffff;
+$danger: #ff4136;
+$body-color: #eee;
+$font-family-sans-serif: 'PixterDisplay', serif;
+$font-family-monospace: 'PixterDisplay', monospace;
+
+$black:    #fff !default;
+$gray-900: #f8f9fa;
+$gray-800: #e9ecef;
+$gray-700: #dee2e6;
+$gray-600: #ced4da;
+$gray-500: #adb5bd;
+$gray-400: #6c757d;
+$gray-300: #495057;
+$gray-200: #343a40;
+$gray-100: #212529;
+$white:    #000;
+
+@import "bootstrap";
+
+body, html {
+  -webkit-font-smoothing: antialiased;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.btn-success, .btn-primary {
+  .text-muted {
+    color: #fff !important;
+  };
+}
+
+.outline-none {
+  outline: 0 !important;
+}
+
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+  &.btn {
+    text-decoration: none;
+  }
+}
+
+.sidebar-items {
+  &> div {
+    border-right: 1px solid #e5e5e5;
+    text-align: center;
+    min-height: 4rem;
+    max-height: 4rem;
+    display: flex;
+  }
+
+  &> div:not(.apps) {
+    min-width: 4rem;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
+
+.rbt-input-main {
+  color: $gray-600 !important;
+}
+.focus .rbt-input-main {
+  color: $black !important;
+}
+
