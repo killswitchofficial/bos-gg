@@ -11,77 +11,86 @@ const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 const loadConfig = (mode) => require(`./config/webpack.${mode}.js`)(mode);
 
 module.exports = function (env) {
-  const { mode = "production" } = env || {};
-  return merge(
-    {
-      mode,
-      entry: `${paths.srcPath}/index.js`,
-      output: {
-        path: paths.distPath,
-        filename: "[name].bundle.js",
-        publicPath: "/",
-      },
-      module: {
-        rules: [
-          {
-            test: /\.m?js/,
-            resolve: {
-              fullySpecified: false,
-            },
-          },
-          {
-            test: /\.js$/,
-            use: ["babel-loader"],
-            exclude: path.resolve(__dirname, "node_modules"),
-          },
-          // Images: Copy image files to build folder
-          { test: /\.(?:ico|gif|png|jpg|jpeg)$/i, type: "asset/resource" },
+	const { mode = "production" } = env || {};
+	return merge(
+		{
+			mode,
+			entry: `${paths.srcPath}/index.js`,
+			output: {
+				path: paths.distPath,
+				filename: "[name].bundle.js",
+				publicPath: "/",
+			},
+			module: {
+				rules: [
+					{
+						test: /\.m?js/,
+						resolve: {
+							fullySpecified: false,
+						},
+					},
+					{
+						test: /\.js$/,
+						use: ["babel-loader"],
+						exclude: path.resolve(__dirname, "node_modules"),
+					},
+					// Images: Copy image files to build folder
+					{
+						test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+						type: "asset/resource",
+					},
 
-          // Fonts and SVGs: Inline files
-          { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, type: "asset/inline" },
-        ],
-      },
-      resolve: {
-        modules: [paths.srcPath, "node_modules"],
-        extensions: [".js", ".jsx", ".json"],
-        fallback: {
-          crypto: require.resolve("crypto-browserify"),
-          stream: require.resolve("stream-browserify"),
-        },
-      },
-      plugins: [
-        new webpack.EnvironmentPlugin({
-          // Configure environment variables here.
-          ENVIRONMENT: "browser",
-        }),
-        new CleanWebpackPlugin(),
-        // Copies files from target to destination folder
-        new CopyWebpackPlugin({
-          patterns: [
-            {
-              from: paths.publicPath,
-              to: "assets",
-              globOptions: {
-                ignore: ["*.DS_Store"],
-              },
-              noErrorOnMissing: true,
-            },
-          ],
-        }),
-        new HTMLWebpackPlugin({
-          template: `${paths.publicPath}/index.html`,
-          favicon: `${paths.publicPath}/favicon.png`,
-          robots: `${paths.publicPath}/robots.txt`,
-        }),
-        new webpack.ProgressPlugin(),
-        new webpack.ProvidePlugin({
-          process: "process/browser",
-          Buffer: [require.resolve("buffer/"), "Buffer"],
-        }),
-        new ManifestPlugin.WebpackManifestPlugin(),
-      ],
-    },
-    loadConfig(mode),
-    loadPreset(env)
-  );
+					// Fonts and SVGs: Inline files
+					{
+						test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
+						type: "asset/inline",
+					},
+				],
+			},
+			resolve: {
+				modules: [paths.srcPath, "node_modules"],
+				extensions: [".js", ".jsx", ".json"],
+				fallback: {
+					crypto: require.resolve("crypto-browserify"),
+					stream: require.resolve("stream-browserify"),
+					https: false,
+					http: false,
+				},
+			},
+			plugins: [
+				new webpack.EnvironmentPlugin({
+					// Configure environment variables here.
+					ENVIRONMENT: "browser",
+					PUBLIC_NETWORK_ID: "mainnet",
+				}),
+				new CleanWebpackPlugin(),
+				// Copies files from target to destination folder
+				new CopyWebpackPlugin({
+					patterns: [
+						{
+							from: paths.publicPath,
+							to: "assets",
+							globOptions: {
+								ignore: ["*.DS_Store"],
+							},
+							noErrorOnMissing: true,
+						},
+					],
+				}),
+				new HTMLWebpackPlugin({
+					template: `${paths.publicPath}/index.html`,
+					favicon: `${paths.publicPath}/favicon.png`,
+					robots: `${paths.publicPath}/robots.txt`,
+				}),
+				new webpack.ProgressPlugin(),
+				new webpack.ProvidePlugin({
+					process: "process/browser",
+					Buffer: [require.resolve("buffer/"), "Buffer"],
+				}),
+				new ManifestPlugin.WebpackManifestPlugin(),
+			],
+		},
+		loadConfig(mode),
+		loadPreset(env)
+	);
 };

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Widget } from "../components/Widget/Widget";
 // import { Widget } from "../components/Widget/Widget";
-import { Widget } from "near-social-vm";
+// import { Widget } from "near-social-vm";
 import ls from "local-storage";
 import { LsKey, NearConfig, useNear } from "../data/near";
 import prettier from "prettier";

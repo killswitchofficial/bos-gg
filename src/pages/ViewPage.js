@@ -5,32 +5,36 @@ import { useQuery } from "../data/utils";
 import { NearConfig } from "../data/near";
 
 export default function ViewPage(props) {
-  const { widgetSrc } = useParams();
-  const query = useQuery();
-  const [widgetProps, setWidgetProps] = useState({});
+	const { widgetSrc } = useParams();
+	const query = useQuery();
+	const [widgetProps, setWidgetProps] = useState({});
 
-  const src = widgetSrc || NearConfig.widgets.default;
-  const setWidgetSrc = props.setWidgetSrc;
+	const src = widgetSrc || NearConfig.widgets.default;
+	const setWidgetSrc = props.setWidgetSrc;
 
-  useEffect(() => {
-    setWidgetProps(Object.fromEntries([...query.entries()]));
-  }, [query]);
+	useEffect(() => {
+		setWidgetProps(Object.fromEntries([...query.entries()]));
+	}, [query]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setWidgetSrc(
-        src === NearConfig.widgets.viewSource && query.get("src")
-          ? {
-              edit: query.get("src"),
-              view: null,
-            }
-          : {
-              edit: src,
-              view: src,
-            }
-      );
-    }, 1);
-  }, [src, query, setWidgetSrc]);
+	useEffect(() => {
+		console.log("src", src);
+	});
 
-  return <Widget key={src} src={src} props={widgetProps} />;
+	useEffect(() => {
+		setTimeout(() => {
+			setWidgetSrc(
+				src === NearConfig.widgets.viewSource && query.get("src")
+					? {
+							edit: query.get("src"),
+							view: null,
+					  }
+					: {
+							edit: src,
+							view: src,
+					  }
+			);
+		}, 1);
+	}, [src, query, setWidgetSrc]);
+
+	return <Widget key={src} src={src} props={widgetProps} />;
 }

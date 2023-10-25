@@ -13,10 +13,14 @@ import EmbedPage from "./pages/EmbedPage";
 import { useAccount } from "./data/account";
 import Big from "big.js";
 import { NavigationWrapper } from "./components/navigation/NavigationWrapper";
+import VmInitializer from "./components/vm/VmInitializer";
+import { useBosLoaderInitializer } from "./hooks/useBosLoaderInitializer";
 
 export const refreshAllowanceObj = {};
 
 function App(props) {
+	useBosLoaderInitializer();
+
 	const [connected, setConnected] = useState(false);
 	const [signedIn, setSignedIn] = useState(false);
 	const [signedAccountId, setSignedAccountId] = useState(null);
@@ -112,6 +116,7 @@ function App(props) {
 
 	return (
 		<div className="App">
+			<VmInitializer />
 			<Router basename={process.env.PUBLIC_URL}>
 				<Switch>
 					<Route path={"/embed/:widgetSrc*"}>
