@@ -40,7 +40,7 @@
 		"mdast-util-find-and-replace": "^2.0.0",
 		"near-api-js": "^0.45.1",
 		"near-fastauth-wallet": "^0.0.8",
-		"near-social-vm": "github:NearSocial/VM#2.4.1",
+		"near-social-vm": "github:NearSocial/VM#2.5.1",
 		"prettier": "^2.7.1",
 		"react": "^18.2.0",
 		"react-bootstrap": "^2.5.0",
